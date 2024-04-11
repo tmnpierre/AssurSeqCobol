@@ -87,8 +87,10 @@
                                        " MONTANT: ", ASSUR-MONTANT,
                                        " DEVISE: ", ASSUR-DEVISE
                            WHEN OTHER
+                           
       *                    Passe à l'enregistrement suivant sans action.
                                CONTINUE
+
                        END-EVALUATE
                END-READ
            END-PERFORM.
