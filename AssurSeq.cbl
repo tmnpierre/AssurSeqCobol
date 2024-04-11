@@ -14,17 +14,20 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT FICHIER-ASSUR ASSIGN TO 'assurances.dat'
-               ORGANIZATION IS LINE SEQUENTIAL.
+               ORGANIZATION IS LINE SEQUENTIAL
+
+      *    Ici, 'STATUS IS WS-FILE-STATUS' sert à enregistrer 
+      *    le code de statut de chaque opération sur le fichier.
+               STATUS IS WS-FILE-STATUS.
 
        DATA DIVISION.
        FILE SECTION.
        FD  FICHIER-ASSUR.
 
-      *    Définition de la structure d'un enregistrement dans le 
-      *    fichier.
+      *     Définition de la structure d'un enregistrement 
+      *    du fichier assurances.
        01  ASSUR-REC.
            05  ASSUR-ID           PIC X(8).
-      *    Séparateur entre les champs.
            05  FILLER             PIC X(1).
            05  ASSUR-NOM          PIC X(14).
            05  FILLER             PIC X(1).
@@ -44,38 +47,37 @@
 
        WORKING-STORAGE SECTION.
 
-      *    Contrôle de la fin de fichier.
-       01  WS-EOF                  PIC X VALUE 'N'.
-           88  EOF                 VALUE 'Y'.
-           88  NOT-EOF             VALUE 'N'.
+      *    Variable pour stocker le code de statut de l'opération
+      *    de fichier.
+       01  WS-FILE-STATUS        PIC XX.
 
-      *    Compteur pour les enregistrements lus.
-       01  WS-REC-COUNT            PIC 9(4) VALUE 0.
+      *    Compteur pour suivre le nombre d'enregistrements lus.
+       01  WS-REC-COUNT          PIC 9(4) VALUE 0.
 
        PROCEDURE DIVISION.
 
-      *    Ouverture du fichier et initialisation du traitement.
+      *    Ouverture du fichier pour lecture.
            OPEN INPUT FICHIER-ASSUR.
-
-      *    Boucle de lecture jusqu'à la fin du fichier.
-           PERFORM UNTIL EOF
+            
+      *    Boucle jusqu'à la fin du fichier, indiquée par le code '10'.
+           PERFORM UNTIL WS-FILE-STATUS = '10'
+               
                READ FICHIER-ASSUR INTO ASSUR-REC
 
-      *        Si fin de fichier atteinte, arrêter la lecture.
+      *    Si fin de fichier, mettre à jour le code de statut.
                    AT END
-                       SET EOF TO TRUE
-
-      *        Sinon, traiter l'enregistrement lu.
+                       MOVE '10' TO WS-FILE-STATUS
+                       
                    NOT AT END
+              
+      *    Incrémenter le compteur d'enregistrements.
                        ADD 1 TO WS-REC-COUNT
-
-      *            Sélectionne les enregistrements 3 et 7 pour 
-      *            l'affichage.
+                       
                        EVALUATE TRUE
-                           WHEN WS-REC-COUNT = 3 OR WS-REC-COUNT = 7
 
-      *                        Affiche les détails des enregistrements 
-      *                        sélectionnés.
+      *    Traitement spécifique pour les enregistrements 3 et 7.
+                           WHEN WS-REC-COUNT = 3 OR WS-REC-COUNT = 7
+                               
                                DISPLAY "ID: ", ASSUR-ID,
                                        " NOM: ", ASSUR-NOM,
                                        " DESCRIPTION: ", ASSUR-DESC,
@@ -85,18 +87,20 @@
                                        " DATE FIN: ", ASSUR-DATE-FIN,
                                        " MONTANT: ", ASSUR-MONTANT,
                                        " DEVISE: ", ASSUR-DEVISE
-                           WHEN OTHER
                            
-      *                    Passe à l'enregistrement suivant sans action.
+      *    Pour tous les autres enregistrements, ne rien faire.
+                           WHEN OTHER
                                CONTINUE
-
                        END-EVALUATE
                END-READ
-           END-PERFORM.
 
+      *    Fin de la boucle de lecture.
+           END-PERFORM.
+           
       *    Fermeture du fichier après traitement.
            CLOSE FICHIER-ASSUR.
 
-      *    Affiche un message à la fin du traitement des enregistrements
-           DISPLAY "FIN DE TRAITEMENT DES ENREGISTREMENTS.".
+      *    Message indiquant la fin du traitement.
+           DISPLAY "FIN DE TRAITEMENT DES ENREGISTREMENTS."
+           
        STOP RUN.
