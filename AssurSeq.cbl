@@ -11,7 +11,6 @@
        AUTHOR. Pierre.
 
        ENVIRONMENT DIVISION.
-
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT FICHIER-ASSUR ASSIGN TO 'assurances.dat'
