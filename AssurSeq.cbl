@@ -11,6 +11,7 @@
        AUTHOR. Pierre.
 
        ENVIRONMENT DIVISION.
+
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT FICHIER-ASSUR ASSIGN TO 'assurances.dat'
@@ -41,8 +42,6 @@
            05  ASSUR-MONTANT      PIC X(9).
            05  FILLER             PIC X(1).
            05  ASSUR-DEVISE       PIC X(1).
-
-
 
        WORKING-STORAGE SECTION.
 
@@ -88,7 +87,6 @@
                                        " MONTANT: ", ASSUR-MONTANT,
                                        " DEVISE: ", ASSUR-DEVISE
                            WHEN OTHER
-
       *                    Passe à l'enregistrement suivant sans action.
                                CONTINUE
                        END-EVALUATE
@@ -98,7 +96,6 @@
       *    Fermeture du fichier après traitement.
            CLOSE FICHIER-ASSUR.
 
-      *    Affiche un message à la fin du traitement des enregistrements.
+      *    Affiche un message à la fin du traitement des enregistrements
            DISPLAY "FIN DE TRAITEMENT DES ENREGISTREMENTS.".
-
        STOP RUN.
