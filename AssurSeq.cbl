@@ -20,12 +20,11 @@
        FILE SECTION.
        FD  FICHIER-ASSUR.
 
-      *    Séparateur entre les champs.
-
       *    Définition de la structure d'un enregistrement dans le 
       *    fichier.
        01  ASSUR-REC.
            05  ASSUR-ID           PIC X(8).
+      *    Séparateur entre les champs.
            05  FILLER             PIC X(1).
            05  ASSUR-NOM          PIC X(14).
            05  FILLER             PIC X(1).
@@ -58,7 +57,7 @@
        PROCEDURE DIVISION.
 
       *    Ouverture du fichier et initialisation du traitement.
-           OPEN INPUT FICHIER-ASSUR
+           OPEN INPUT FICHIER-ASSUR.
 
       *    Boucle de lecture jusqu'à la fin du fichier.
            PERFORM UNTIL EOF
@@ -94,12 +93,12 @@
                                CONTINUE
                        END-EVALUATE
                END-READ
-           END-PERFORM
+           END-PERFORM.
 
       *    Fermeture du fichier après traitement.
-           CLOSE FICHIER-ASSUR
+           CLOSE FICHIER-ASSUR.
 
       *    Affiche un message à la fin du traitement des enregistrements.
-           DISPLAY "FIN DE TRAITEMENT DES ENREGISTREMENTS."
+           DISPLAY "FIN DE TRAITEMENT DES ENREGISTREMENTS.".
 
        STOP RUN.
