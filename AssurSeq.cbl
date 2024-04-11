@@ -40,7 +40,7 @@
            05  FILLER             PIC X(1).
            05  ASSUR-MONTANT      PIC X(9).
            05  FILLER             PIC X(1).
-           05  ASSUR-DEVISE       PIC X(1).
+           05  ASSUR-DEVISE       PIC X(3).
 
        WORKING-STORAGE SECTION.
 
