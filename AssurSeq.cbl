@@ -22,7 +22,9 @@
 
        DATA DIVISION.
        FILE SECTION.
-       FD  FICHIER-ASSUR.
+       FD  FICHIER-ASSUR
+           RECORD CONTAINS 119 TO 123 CHARACTERS
+           RECORDING MODE IS V.
 
       *     Définition de la structure d'un enregistrement 
       *    du fichier assurances.
@@ -66,7 +68,7 @@
 
       *    Si fin de fichier, mettre à jour le code de statut.
                    AT END
-                       MOVE '10' TO WS-FILE-STATUS
+                      MOVE '10' TO WS-FILE-STATUS
                        
                    NOT AT END
               
