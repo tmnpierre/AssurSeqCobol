@@ -23,7 +23,7 @@
        DATA DIVISION.
        FILE SECTION.
        FD  FICHIER-ASSUR
-           RECORD CONTAINS 119 TO 123 CHARACTERS
+           RECORD CONTAINS 119 TO 130 CHARACTERS
            RECORDING MODE IS V.
 
       *     Définition de la structure d'un enregistrement 
